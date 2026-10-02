@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>天赋能力测试 · 职业深度版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(180deg, #7c5ce8 0%, #a78bfa 50%, #e9d5ff 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* 顶部导航 */
+        .top-nav {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .back-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #1f2937;
+            cursor: pointer;
+        }
+        .nav-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .more-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #1f2937;
+            cursor: pointer;
+        }
+        /* 视图通用 */
+        .view {
+            display: none;
+            padding-bottom: 40px;
+        }
+        .view.active {
+            display: block;
+        }
+        /* 首页 Hero 区域 */
+        .hero-section {
+            padding: 60px 30px 40px;
+            text-align: center;
+            color: white;
+        }
+        .hero-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+        .hero-tags {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .hero-tag {
+            padding: 8px 20px;
+            border: 1.5px solid rgba(255,255,255,0.7);
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+        }
+        .hero-desc {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        .start-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(109, 40, 217, 0.3);
+            margin-bottom: 40px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-num {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+        }
+        /* 白色卡片区域 */
+        .card-section {
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            padding: 32px 24px;
+            margin-top: 20px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: #8b5cf6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .section-desc {
+            font-size: 15px;
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        /* 天赋维度网格 */
+        .talent-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .talent-card {
+            background: #f5f3ff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .talent-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        .talent-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 6px;
+        }
+        .talent-desc {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        /* 天赋类型卡片 */
+        .type-card {
+            background: #f5f3ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .type-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 6px;
+        }
+        .type-tags {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        .type-desc {
+            font-size: 15px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        .ready-section {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+        .ready-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+        .ready-desc {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+        /* 答题页 */
+        .quiz-top {
+            background: #7c5ce8;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .quiz-back {
+            padding: 8px 16px;
+            border: 1.5px solid rgba(255,255,255,0.6);
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .quiz-progress-text {
+            flex: 1;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            margin: 0 20px 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            width: 2%;
+            transition: width 0.3s ease;
+        }
+        .quiz-card {
+            margin: 0 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 32px 24px;
+        }
+        .quiz-question-num {
+            font-size: 16px;
+            color: #8b5cf6;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .quiz-question-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1f2937;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        .quiz-options-hint {
+            background: #f5f3ff;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 14px;
+            color: #9ca3af;
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .option-item {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-item.selected {
+            border-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+        .option-radio {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #c4b5fd;
+            border-radius: 50%;
+            position: relative;
+        }
+        .option-item.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #8b5cf6;
+            border-radius: 50%;
+        }
+        .option-text {
+            font-size: 17px;
+            color: #374151;
+        }
+        .quiz-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #f3f4f6;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-prev {
+            background: white;
+            border: 1.5px solid #e5e7eb;
+            color: #8b5cf6;
+        }
+        .btn-prev:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .btn-next {
+            background: #e5e7eb;
+            color: #9ca3af;
+        }
+        .btn-next.active {
+            background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(109,40,217,0.3);
+        }
+        /* 结果页 */
+        .result-section {
+            margin: 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 28px 24px;
+        }
+        .result-badge {
+            background: #f5f3ff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            color: #059669;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .career-card {
+            background: #f5f3ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .career-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .career-num {
+            width: 28px;
+            height: 28px;
+            background: #8b5cf6;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .career-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            flex: 1;
+        }
+        .career-stars {
+            color: #f59e0b;
+            font-size: 16px;
+        }
+        .career-why {
+            background: #d1fae5;
+            color: #047857;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .career-fit {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .career-risk {
+            font-size: 14px;
+            color: #b45309;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .career-step {
+            font-size: 14px;
+            color: #b45309;
+            line-height: 1.6;
+        }
+        .tips-text {
+            font-size: 15px;
+            color: #374151;
+            line-height: 1.7;
+            margin: 20px 0;
+        }
+        .warn-section {
+            margin-top: 24px;
+        }
+        .warn-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        .warn-item {
+            background: #fef3c7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #92400e;
+            line-height: 1.6;
+        }
+        /* 7天计划 */
+        .plan-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .plan-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .plan-icon {
+            width: 40px;
+            height: 40px;
+            background: #f59e0b;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .plan-subtitle {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+        .plan-item {
+            background: #f5f3ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .plan-day {
+            background: #8b5cf6;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .plan-text {
+            font-size: 15px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        .plan-note {
+            background: #f5f3ff;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 15px;
+            color: #374151;
+            line-height: 1.7;
+        }
+        /* 阅读提示 */
+        .reading-tip {
+            margin: 20px;
+            background: #f3f4f6;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .tip-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+        .tip-content {
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+        .result-footer {
+            padding: 0 20px 40px;
+        }
+        .back-home-btn {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 30px;
+            background: white;
+            font-size: 17px;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        .footer-time {
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .watermark {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            font-size: 13px;
+            color: rgba(156, 163, 175, 0.6);
+            pointer-events: none;
+        }
+        /* 隐藏平台自动注入的标识 */
+        [class*="doubao"], [class*="watermark"], [class*="powered"], [id*="doubao"], [id*="powered"] {
+            display: none !important;
+        }
+        body::after {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航 -->
+        <div class="top-nav">
+            <div class="back-btn">‹</div>
+            <div class="nav-title">天赋能力测试 · 职业深度版</div>
+            <div class="more-btn">···</div>
+        </div>
+
+        <!-- 视图1：首页 -->
+        <div class="view active" id="view-home">
+            <div class="hero-section">
+                <h1 class="hero-title">发现你的天赋密码</h1>
+                <div class="hero-tags">
+                    <span class="hero-tag">职业深度版</span>
+                    <span class="hero-tag">基于多元智能理论</span>
+                </div>
+                <p class="hero-desc">
+                    每个人都有独特的天赋组合。本测试基于加德纳多元智能理论、盖洛普优势理念与霍兰德职业兴趣理论，帮你科学定位优势，并给出可落地的成长与职业建议。
+                </p>
+                <button class="start-btn" onclick="goToDimensionIntro()">开始探索</button>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-num">7-9</div>
+                        <div class="stat-label">分钟完成</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">50</div>
+                        <div class="stat-label">道题目</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">10</div>
+                        <div class="stat-label">天赋维度</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">100%</div>
+                        <div class="stat-label">隐私保护</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-section">
+                <div class="section-header">
+                    <div class="section-icon">✦</div>
+                    <h2 class="section-title">十大天赋维度</h2>
+                </div>
+                <p class="section-desc">
+                    基于加德纳多元智能理论并扩展创造与美学维度，全面评估你的能力倾向
+                </p>
+                <div class="talent-grid">
+                    <div class="talent-card">
+                        <div class="talent-icon">🪞</div>
+                        <div class="talent-name">自我觉察天赋</div>
+                        <div class="talent-desc">自我认知与情绪管理</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">👥</div>
+                        <div class="talent-name">人际理解天赋</div>
+                        <div class="talent-desc">人际交往与共情能力</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🧩</div>
+                        <div class="talent-name">创新创造天赋</div>
+                        <div class="talent-desc">创新思维与突破常规</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🖼️</div>
+                        <div class="talent-name">审美设计天赋</div>
+                        <div class="talent-desc">审美感知与艺术表达</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🧮</div>
+                        <div class="talent-name">逻辑分析天赋</div>
+                        <div class="talent-desc">数学计算与逻辑推理</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🌿</div>
+                        <div class="talent-name">自然观察天赋</div>
+                        <div class="talent-desc">自然观察与生态理解</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🤸</div>
+                        <div class="talent-name">身体操作天赋</div>
+                        <div class="talent-desc">身体协调与运动技能</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🎵</div>
+                        <div class="talent-name">音乐感知天赋</div>
+                        <div class="talent-desc">节奏感知与音乐表达</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">🧭</div>
+                        <div class="talent-name">空间想象天赋</div>
+                        <div class="talent-desc">空间想象与方向感知</div>
+                    </div>
+                    <div class="talent-card">
+                        <div class="talent-icon">📖</div>
+                        <div class="talent-name">语言表达天赋</div>
+                        <div class="talent-desc">语言表达与文字驾驭</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视图2：天赋类型介绍 -->
+        <div class="view" id="view-type-intro">
+            <div class="card-section" style="margin-top:0; border-radius: 0;">
+                <div class="section-header">
+                    <div class="section-icon">✦</div>
+                    <h2 class="section-title">发现你的天赋类型</h2>
+                </div>
+                <p class="section-desc">
+                    测试会根据你的天赋组合，给出专属的类型分析与职业匹配
+                </p>
+                <div class="type-card">
+                    <div class="type-name">沟通创意型</div>
+                    <div class="type-tags">语言 + 人际 + 创造</div>
+                    <div class="type-desc">
+                        天生的沟通者和创意人，善于用语言打动他人，在营销、公关、内容创作领域大放异彩。
+                    </div>
+                </div>
+                <div class="type-card">
+                    <div class="type-name">逻辑创新型</div>
+                    <div class="type-tags">逻辑 + 空间 + 创造</div>
+                    <div class="type-desc">
+                        解决复杂问题的高手，擅长逻辑分析和空间想象，是工程师、架构师、产品经理的料。
+                    </div>
+                </div>
+                <div class="type-card">
+                    <div class="type-name">艺术表现型</div>
+                    <div class="type-tags">身体 + 音乐 + 美学</div>
+                    <div class="type-desc">
+                        舞台的焦点，在身体协调、音乐感知和美学创造方面天赋异禀，适合艺术、设计、表演。
+                    </div>
+                </div>
+
+                <div class="ready-section">
+                    <h3 class="ready-title">准备好发现你的天赋了吗？</h3>
+                    <p class="ready-desc">
+                        凭直觉作答，没有对错之分。答案仅保存在你的设备本地。
+                    </p>
+                    <button class="start-btn" onclick="startQuiz()">开始测试</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视图3：答题页 -->
+        <div class="view" id="view-quiz">
+            <div class="quiz-top">
+                <div class="quiz-back" onclick="goBackToIntro()">‹ 返回</div>
+                <div class="quiz-progress-text" id="quiz-progress-text">天赋潜能测评 · 1/50</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="quiz-card">
+                <div class="quiz-question-num" id="quiz-question-num">QUESTION 1 / 50</div>
+                <div class="quiz-question-text" id="quiz-question-text"></div>
+                <div class="quiz-options-hint">
+                    请根据你的真实情况选择：<br>
+                    非常不像我 &nbsp;&nbsp;不太像我 &nbsp;&nbsp;一般 / 不确定 &nbsp;&nbsp;比较像我 &nbsp;&nbsp;非常像我
+                </div>
+                <div id="options-container">
+                    <div class="option-item" data-value="1">
+                        <div class="option-radio"></div>
+                        <div class="option-text">非常不像我</div>
+                    </div>
+                    <div class="option-item" data-value="2">
+                        <div class="option-radio"></div>
+                        <div class="option-text">不太像我</div>
+                    </div>
+                    <div class="option-item" data-value="3">
+                        <div class="option-radio"></div>
+                        <div class="option-text">一般 / 不确定</div>
+                    </div>
+                    <div class="option-item" data-value="4">
+                        <div class="option-radio"></div>
+                        <div class="option-text">比较像我</div>
+                    </div>
+                    <div class="option-item" data-value="5">
+                        <div class="option-radio"></div>
+                        <div class="option-text">非常像我</div>
+                    </div>
+                </div>
+                <div class="quiz-actions">
+                    <button class="action-btn btn-prev" id="btn-prev" onclick="prevQuestion()">‹ 上一题</button>
+                    <button class="action-btn btn-next" id="btn-next" onclick="nextQuestion()">下一题 ›</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视图4：结果页 -->
+        <div class="view" id="view-result">
+            <div class="result-section">
+                <div class="section-header">
+                    <div class="section-icon">💼</div>
+                    <h2 class="section-title">推荐职业方向</h2>
+                </div>
+                <div class="result-badge">
+                    根据你的天赋组合，以下职业方向与你的能力匹配度较高，建议优先探索。
+                </div>
+
+                <div class="career-card">
+                    <div class="career-header">
+                        <div class="career-num">1</div>
+                        <div class="career-name">心理咨询师</div>
+                        <div class="career-stars">★★★★★</div>
+                    </div>
+                    <div class="career-why">为什么：你的自我觉察 + 人际理解能力组合明显</div>
+                    <div class="career-fit">适合：情绪疏导、深度倾听与个案辅导</div>
+                    <div class="career-risk">风险：需要长期共情、情绪耗竭与伦理意识</div>
+                    <div class="career-step">第一步：从心理倾听师、公益热线志愿者做起</div>
+                </div>
+
+                <div class="career-card">
+                    <div class="career-header">
+                        <div class="career-num">2</div>
+                        <div class="career-name">用户体验研究员</div>
+                        <div class="career-stars">★★★★★</div>
+                    </div>
+                    <div class="career-why">为什么：你的人际理解 + 观察分析能力组合明显</div>
+                    <div class="career-fit">适合：用户访谈、行为洞察与产品建议</div>
+                    <div class="career-risk">风险：需要跨部门沟通与数据报告能力</div>
+                    <div class="career-step">第一步：从互联网公司用研助理岗切入</div>
+                </div>
+
+                <div class="career-card">
+                    <div class="career-header">
+                        <div class="career-num">3</div>
+                        <div class="career-name">HRBP</div>
+                        <div class="career-stars">★★★★☆</div>
+                    </div>
+                    <div class="career-why">为什么：你的人际理解 + 组织感知能力组合明显</div>
+                    <div class="career-fit">适合：员工关系、团队诊断与人才发展</div>
+                    <div class="career-risk">风险：需要平衡公司目标与员工感受</div>
+                    <div class="career-step">第一步：从招聘专员、员工关系岗积累经验</div>
+                </div>
+
+                <div class="career-card">
+                    <div class="career-header">
+                        <div class="career-num">4</div>
+                        <div class="career-name">教师 / 培训师</div>
+                        <div class="career-stars">★★★★☆</div>
+                    </div>
+                    <div class="career-why">为什么：你的语言表达 + 人际理解能力组合明显</div>
+                    <div class="career-fit">适合：知识讲解、课堂引导与学员反馈</div>
+                    <div class="career-risk">风险：需要持续备课与情绪稳定输出</div>
+                    <div class="career-step">第一步：从助教、企业内训助理做起</div>
+                </div>
+
+                <div class="career-card">
+                    <div class="career-header">
+                        <div class="career-num">5</div>
+                        <div class="career-name">导游</div>
+                        <div class="career-stars">★★★☆☆</div>
+                    </div>
+                    <div class="career-why">为什么：你的人际理解 + 自然观察能力组合明显</div>
+                    <div class="career-fit">适合：讲解景点、带团协调</div>
+                    <div class="career-risk">风险：需要表达、体力与临场应变</div>
+                    <div class="career-step">第一步：考取导游证，从地接做起</div>
+                </div>
+
+                <div class="career-card">
+                    <div class="career-header">
+                        <div class="career-num">6</div>
+                        <div class="career-name">摄影师</div>
+                        <div class="career-stars">★★★★☆</div>
+                    </div>
+                    <div class="career-why">为什么：你的审美设计 + 自然观察能力组合明显</div>
+                    <div class="career-fit">适合：构图、光线与画面捕捉</div>
+                    <div class="career-risk">风险：需要构图直觉与光线敏感</div>
+                    <div class="career-step">第一步：从约拍和作品集开始</div>
+                </div>
+
+                <p class="tips-text">
+                    小贴士：在选择时，不妨想一想哪类工作更能让你的天赋被看见、被需要。
+                </p>
+
+                <div class="warn-section">
+                    <div class="warn-header">
+                        <span>⚠️</span> 建议谨慎的方向
+                    </div>
+                    <div class="warn-item">内容审核：需要细致与规则意识</div>
+                    <div class="warn-item">广告策划：需要创意与洞察力</div>
+                    <div class="warn-item">内容运营：需要文字功底与数据敏感</div>
+                    <div class="warn-item">翻译/字幕：需要语言功底与细致耐心</div>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="plan-header">
+                    <div class="plan-title-wrap">
+                        <div class="plan-icon">▦</div>
+                        <h2 class="section-title">7天职业验证计划</h2>
+                    </div>
+                    <div class="plan-subtitle">别空想，用行动验证</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-day">Day 1</div>
+                    <div class="plan-text">搜索 3 个目标岗位，标出你已具备的能力</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-day">Day 2-4</div>
+                    <div class="plan-text">访谈 1 位从业者，记下别人踩过的坑</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-day">Day 5-7</div>
+                    <div class="plan-text">围绕目标岗位做 1 个小作品并发布</div>
+                </div>
+                <div class="plan-note">
+                    7 天后你会比现在更清楚"这条路适不适合我"。验证的成本，远低于转行的代价。
+                </div>
+            </div>
+
+            <div class="reading-tip">
+                <div class="tip-header">
+                    <span>ⓘ</span> 阅读提示
+                </div>
+                <div class="tip-content">
+                    本报告基于多元智能理论，对你的优势与成长方向做结构化呈现。它不定义你"是什么人"，而是提供在学习、求职与成长决策时可参考的线索。任何职业选择都建议结合兴趣、经历与现实机会综合判断。
+                </div>
+            </div>
+
+            <div class="footer-time">
+                <span>⏱️</span>
+                <span id="result-time">2026/10/1 08:20:46 · 天赋能力测试（50题）· 职业深度版</span>
+            </div>
+
+            <div class="result-footer">
+                <button class="back-home-btn" onclick="backToHome()">返回首页</button>
+            </div>
+        </div>
+
+        <div class="watermark">@Moopuffy</div>
+    </div>
+
+    <script>
+        // 测试题目 - 50道题，对应10个维度，每个维度5题
+        const questions = [
+            // 语言表达维度
+            { text: "我能够准确描述复杂的想法，让别人容易理解。", dimension: "语言" },
+            { text: "阅读文章、书籍或资料时，我容易抓住核心观点。", dimension: "语言" },
+            { text: "我写东西的时候思路清晰，很少卡壳。", dimension: "语言" },
+            { text: "我擅长用文字说服他人接受我的观点。", dimension: "语言" },
+            { text: "我能快速记住新学的词汇和表达方式。", dimension: "语言" },
+            // 逻辑分析维度
+            { text: "我喜欢拆解复杂的问题，一步步找到答案。", dimension: "逻辑" },
+            { text: "我喜欢分析事情背后的原因，而不是只看表面现象。", dimension: "逻辑" },
+            { text: "数字和数据对我来说很容易理解。", dimension: "逻辑" },
+            { text: "我能快速发现别人论述中的逻辑漏洞。", dimension: "逻辑" },
+            { text: "做决策时我习惯先列清单、算利弊。", dimension: "逻辑" },
+            // 空间想象维度
+            { text: "看地图、结构图或设计图时，我通常理解较快。", dimension: "空间" },
+            { text: "我能在脑海中想象出物体旋转后的样子。", dimension: "空间" },
+            { text: "我画画或者做手工的时候比例感比较好。", dimension: "空间" },
+            { text: "到了陌生环境，我不容易迷路。", dimension: "空间" },
+            { text: "我能在脑海里把一个方案的整体布局想清楚。", dimension: "空间" },
+            // 身体操作维度
+            { text: "我动手能力强，组装东西或者做手工很快上手。", dimension: "身体" },
+            { text: "运动的时候我学动作比别人快。", dimension: "身体" },
+            { text: "我擅长使用工具、操作仪器这类需要手感的事。", dimension: "身体" },
+            { text: "我通过实践操作来学习新知识比纯听课效率高。", dimension: "身体" },
+            { text: "我身体协调性好，很少笨手笨脚。", dimension: "身体" },
+            // 音乐感知维度
+            { text: "我能很快记住听过的旋律和节奏。", dimension: "音乐" },
+            { text: "听到不和谐的声音我会明显觉得不舒服。", dimension: "音乐" },
+            { text: "我唱歌或者打拍子的时候节奏很准。", dimension: "音乐" },
+            { text: "我能分辨出不同乐器的声音。", dimension: "音乐" },
+            { text: "我习惯边听音乐边做事，效率更高。", dimension: "音乐" },
+            // 人际理解维度
+            { text: "我能敏锐察觉到别人情绪的变化。", dimension: "人际" },
+            { text: "朋友遇到问题都愿意来找我倾诉。", dimension: "人际" },
+            { text: "我擅长站在别人的角度思考问题。", dimension: "人际" },
+            { text: "在群体中我能快速察觉每个人的角色和关系。", dimension: "人际" },
+            { text: "我很容易和陌生人熟络起来。", dimension: "人际" },
+            // 自我觉察维度
+            { text: "我清楚自己的优势和短板在哪里。", dimension: "自我" },
+            { text: "情绪不好的时候我能快速调整过来。", dimension: "自我" },
+            { text: "我经常反思自己做过的事，总结经验。", dimension: "自我" },
+            { text: "我知道自己真正想要的是什么，很少随波逐流。", dimension: "自我" },
+            { text: "我能独立做决定，不依赖别人的看法。", dimension: "自我" },
+            // 自然观察维度
+            { text: "我能轻易分辨出不同的植物和动物。", dimension: "自然" },
+            { text: "到了自然环境里我会觉得很放松。", dimension: "自然" },
+            { text: "我能注意到天气、环境的细微变化。", dimension: "自然" },
+            { text: "我喜欢研究自然规律和生态现象。", dimension: "自然" },
+            { text: "去户外的时候我总能发现别人注意不到的细节。", dimension: "自然" },
+            // 创新创造维度
+            { text: "我经常有别人想不到的新点子。", dimension: "创新" },
+            { text: "我喜欢用不一样的方法解决问题。", dimension: "创新" },
+            { text: "我不喜欢按部就班的工作，总想做点改变。", dimension: "创新" },
+            { text: "我能把看似不相关的东西联系起来产生创意。", dimension: "创新" },
+            { text: "头脑风暴的时候我总能贡献最多想法。", dimension: "创新" },
+            // 审美设计维度
+            { text: "我对颜色、搭配、风格的感知很敏锐。", dimension: "审美" },
+            { text: "看到丑陋或者不协调的设计我会很难受。", dimension: "审美" },
+            { text: "我布置空间或者搭配衣服时别人常说好看。", dimension: "审美" },
+            { text: "我能判断一个设计作品好坏在哪里。", dimension: "审美" },
+            { text: "我喜欢关注好看的视觉内容和设计作品。", dimension: "审美" },
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let selectedValue = null;
+
+        // 检查是否已经完成测试（只能做一次）
+        function checkTestCompleted() {
+            const completed = localStorage.getItem('talentTestCompleted');
+            if (completed === 'true') {
+                // 已经做过测试，直接显示结果页
+                showResult();
+                return true;
+            }
+            return false;
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function goToDimensionIntro() {
+            showView('view-type-intro');
+        }
+
+        function startQuiz() {
+            currentQuestion = 0;
+            answers = new Array(questions.length).fill(null);
+            showView('view-quiz');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('quiz-progress-text').textContent = `天赋潜能测评 · ${currentQuestion + 1}/50`;
+            document.getElementById('quiz-question-num').textContent = `QUESTION ${currentQuestion + 1} / 50`;
+            document.getElementById('quiz-question-text').textContent = q.text;
+            document.getElementById('progress-fill').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            // 重置选项状态
+            selectedValue = answers[currentQuestion];
+            document.querySelectorAll('.option-item').forEach(item => {
+                if (parseInt(item.dataset.value) === selectedValue) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+
+            // 按钮状态
+            document.getElementById('btn-prev').disabled = currentQuestion === 0;
+            const nextBtn = document.getElementById('btn-next');
+            if (selectedValue !== null) {
+                nextBtn.classList.add('active');
+                nextBtn.textContent = currentQuestion === questions.length - 1 ? '查看结果 ›' : '下一题 ›';
+            } else {
+                nextBtn.classList.remove('active');
+            }
+        }
+
+        // 选项点击事件
+        document.querySelectorAll('.option-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                selectedValue = parseInt(item.dataset.value);
+                answers[currentQuestion] = selectedValue;
+                document.getElementById('btn-next').classList.add('active');
+            });
+        });
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (selectedValue === null) {
+                alert('请先选择一个选项再继续');
+                return;
+            }
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                // 完成测试
+                completeQuiz();
+            }
+        }
+
+        function completeQuiz() {
+            // 保存完成状态，测试只能做一次
+            localStorage.setItem('talentTestCompleted', 'true');
+            showResult();
+        }
+
+        function showResult() {
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} · 天赋能力测试（50题）· 职业深度版`;
+            document.getElementById('result-time').textContent = timeStr;
+            showView('view-result');
+        }
+
+        function goBackToIntro() {
+            showView('view-type-intro');
+        }
+
+        function backToHome() {
+            showView('view-home');
+        }
+
+        // 页面加载时检查是否已经做过测试
+        window.onload = function() {
+            checkTestCompleted();
+        };
+    </script>
+</body>
