@@ -13,9 +13,37 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            background: linear-gradient(180deg, #7c5ce8 0%, #a78bfa 50%, #e9d5ff 100%);
+            background: linear-gradient(180deg, #c8e8f5 0%, #e8dff5 40%, #fde4e8 75%, #fff5e8 100%);
             min-height: 100vh;
-            color: #1f2937;
+            color: #4a3f5c;
+            position: relative;
+        }
+        /* 治愈系手绘云朵装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 8%;
+            left: 5%;
+            width: 120px;
+            height: 50px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50px;
+            filter: blur(2px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 20%;
+            right: 8%;
+            width: 80px;
+            height: 35px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 40px;
+            filter: blur(2px);
+            z-index: 0;
+            pointer-events: none;
         }
         .container {
             max-width: 480px;
@@ -72,13 +100,14 @@
         .hero-section {
             padding: 60px 30px 40px;
             text-align: center;
-            color: white;
+            color: #5a4a6e;
         }
         .hero-title {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 800;
             margin-bottom: 24px;
             letter-spacing: 2px;
+            color: #4a3a5e;
         }
         .hero-tags {
             display: flex;
@@ -88,28 +117,29 @@
         }
         .hero-tag {
             padding: 8px 20px;
-            border: 1.5px solid rgba(255,255,255,0.7);
+            border: 1.5px solid rgba(184, 165, 232, 0.6);
             border-radius: 20px;
             font-size: 14px;
-            color: white;
+            color: #7a6a8e;
+            background: rgba(255,255,255,0.5);
         }
         .hero-desc {
             font-size: 16px;
             line-height: 1.8;
             margin-bottom: 40px;
-            opacity: 0.95;
+            color: #6a5a7e;
         }
         .start-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+            background: linear-gradient(90deg, #c9a8e8, #e8b8d0);
             border: none;
             border-radius: 30px;
             color: white;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(109, 40, 217, 0.3);
+            box-shadow: 0 8px 24px rgba(201, 168, 232, 0.4);
             margin-bottom: 40px;
         }
         .stats-row {
@@ -123,12 +153,12 @@
         .stat-num {
             font-size: 28px;
             font-weight: 700;
-            color: white;
+            color: #6a4a8e;
             margin-bottom: 4px;
         }
         .stat-label {
             font-size: 13px;
-            color: rgba(255,255,255,0.8);
+            color: #9a8aae;
         }
         /* 白色卡片区域 */
         .card-section {
@@ -146,8 +176,8 @@
         .section-icon {
             width: 40px;
             height: 40px;
-            background: #8b5cf6;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #d4b8f0, #f0c8e0);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -157,11 +187,11 @@
         .section-title {
             font-size: 22px;
             font-weight: 700;
-            color: #1f2937;
+            color: #4a3a5e;
         }
         .section-desc {
             font-size: 15px;
-            color: #6b7280;
+            color: #8a7a9e;
             line-height: 1.7;
             margin-bottom: 24px;
         }
@@ -173,9 +203,10 @@
             margin-bottom: 32px;
         }
         .talent-card {
-            background: #f5f3ff;
+            background: linear-gradient(135deg, #f8f4ff, #fff0f5);
             border-radius: 16px;
             padding: 20px;
+            border: 1px solid rgba(212, 184, 240, 0.2);
         }
         .talent-icon {
             font-size: 28px;
@@ -184,35 +215,36 @@
         .talent-name {
             font-size: 16px;
             font-weight: 700;
-            color: #1f2937;
+            color: #4a3a5e;
             margin-bottom: 6px;
         }
         .talent-desc {
             font-size: 13px;
-            color: #6b7280;
+            color: #9a8aae;
             line-height: 1.5;
         }
         /* 天赋类型卡片 */
         .type-card {
-            background: #f5f3ff;
+            background: linear-gradient(135deg, #f8f4ff, #fff0f5);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
+            border: 1px solid rgba(212, 184, 240, 0.2);
         }
         .type-name {
             font-size: 18px;
             font-weight: 700;
-            color: #7c3aed;
+            color: #a07ad0;
             margin-bottom: 6px;
         }
         .type-tags {
             font-size: 14px;
-            color: #6b7280;
+            color: #9a8aae;
             margin-bottom: 12px;
         }
         .type-desc {
             font-size: 15px;
-            color: #374151;
+            color: #5a4a6e;
             line-height: 1.6;
         }
         .ready-section {
@@ -223,17 +255,17 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 12px;
-            color: #1f2937;
+            color: #4a3a5e;
         }
         .ready-desc {
             font-size: 14px;
-            color: #6b7280;
+            color: #9a8aae;
             line-height: 1.7;
             margin-bottom: 32px;
         }
         /* 答题页 */
         .quiz-top {
-            background: #7c5ce8;
+            background: linear-gradient(90deg, #b8a5e8, #d4b8e8);
             padding: 10px 16px;
             display: flex;
             align-items: center;
@@ -241,7 +273,7 @@
         }
         .quiz-back {
             padding: 6px 12px;
-            border: 1.5px solid rgba(255,255,255,0.6);
+            border: 1.5px solid rgba(255,255,255,0.7);
             border-radius: 16px;
             color: white;
             font-size: 13px;
@@ -256,7 +288,7 @@
         }
         .progress-bar {
             height: 4px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.4);
             border-radius: 2px;
             margin: 0 16px 12px;
             overflow: hidden;
@@ -271,12 +303,13 @@
         .quiz-card {
             margin: 0 12px;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 20px 16px;
+            box-shadow: 0 4px 20px rgba(184, 165, 232, 0.15);
         }
         .quiz-question-num {
             font-size: 13px;
-            color: #8b5cf6;
+            color: #b898d8;
             font-weight: 600;
             margin-bottom: 10px;
             letter-spacing: 1px;
@@ -284,7 +317,7 @@
         .quiz-question-text {
             font-size: 18px;
             font-weight: 700;
-            color: #1f2937;
+            color: #4a3a5e;
             line-height: 1.4;
             margin-bottom: 14px;
         }
@@ -292,8 +325,8 @@
             display: none;
         }
         .option-item {
-            background: #f9fafb;
-            border: 1.5px solid #e5e7eb;
+            background: #faf8ff;
+            border: 1.5px solid #e8e0f0;
             border-radius: 12px;
             padding: 11px 14px;
             margin-bottom: 8px;
@@ -304,13 +337,13 @@
             transition: all 0.2s ease;
         }
         .option-item.selected {
-            border-color: #8b5cf6;
-            background: #f5f3ff;
+            border-color: #c9a8e8;
+            background: #f0e8ff;
         }
         .option-radio {
             width: 20px;
             height: 20px;
-            border: 2px solid #c4b5fd;
+            border: 2px solid #d4b8e8;
             border-radius: 50%;
             position: relative;
             flex-shrink: 0;
@@ -323,19 +356,19 @@
             transform: translate(-50%, -50%);
             width: 10px;
             height: 10px;
-            background: #8b5cf6;
+            background: #b888d8;
             border-radius: 50%;
         }
         .option-text {
             font-size: 15px;
-            color: #374151;
+            color: #5a4a6e;
         }
         .quiz-actions {
             display: flex;
             gap: 12px;
             margin-top: 14px;
             padding-top: 14px;
-            border-top: 1px solid #f3f4f6;
+            border-top: 1px solid #f3eef8;
         }
         .action-btn {
             flex: 1;
@@ -348,21 +381,21 @@
         }
         .btn-prev {
             background: white;
-            border: 1.5px solid #e5e7eb;
-            color: #8b5cf6;
+            border: 1.5px solid #e8e0f0;
+            color: #b898d8;
         }
         .btn-prev:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
         .btn-next {
-            background: #e5e7eb;
-            color: #9ca3af;
+            background: #e8e0f0;
+            color: #b0a0c0;
         }
         .btn-next.active {
-            background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+            background: linear-gradient(90deg, #c9a8e8, #e8b8d0);
             color: white;
-            box-shadow: 0 4px 12px rgba(109,40,217,0.3);
+            box-shadow: 0 4px 12px rgba(201, 168, 232, 0.4);
         }
         /* 结果页 */
         .result-section {
@@ -395,7 +428,7 @@
         .career-num {
             width: 28px;
             height: 28px;
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #d4b8f0, #f0c8e0);
             color: white;
             border-radius: 8px;
             display: flex;
@@ -503,7 +536,7 @@
             align-items: flex-start;
         }
         .plan-day {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #d4b8f0, #f0c8e0);
             color: white;
             padding: 6px 12px;
             border-radius: 8px;
